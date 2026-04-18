@@ -1,0 +1,9 @@
+Part 4 Reflection
+
+FoundationDB's unbundled architecture separates storage, transaction processing, and coordination into independent components.
+
+(a) Fast recovery is enabled because failure handling is coordinated by stateless processes. When a component fails, another can quickly take over without needing to recover full database state.
+
+(b) Lock-free conflict detection is achieved using optimistic concurrency control. Transactions are checked for conflicts at commit time rather than using locks, which improves throughput and avoids blocking.
+
+(c) Zero-abort atomic operations are supported by atomic mutations, which can update values without causing transaction conflicts, even under concurrent writes.
