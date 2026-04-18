@@ -1,9 +1,5 @@
-Part 4 Reflection
-
-FoundationDB's unbundled architecture separates storage, transaction processing, and coordination into independent components.
-
-(a) Fast recovery is enabled because failure handling is coordinated by stateless processes. When a component fails, another can quickly take over without needing to recover full database state.
-
-(b) Lock-free conflict detection is achieved using optimistic concurrency control. Transactions are checked for conflicts at commit time rather than using locks, which improves throughput and avoids blocking.
-
-(c) Zero-abort atomic operations are supported by atomic mutations, which can update values without causing transaction conflicts, even under concurrent writes.
+Q1: FoundationDB adopts a hierarchical architecture, separating the underlying key-value storage from the upper-level data model. The lower layer is only responsible for simple data storage, while complex data structures can be implemented at the upper layer. I think this design is very flexible because different data models can be built according to different needs. It is also convenient for system maintenance, as the lower and upper layers can be modified independently.
+Q2: FoundationDB uses optimistic concurrency control to manage transactions. During the transaction execution process, no locks are added. Instead, conflicts are checked at the time of commit. If it is found that the read and write data has been modified by another transaction, the current transaction will fail and be retried. I feel that this approach can reduce waiting and improve concurrent performance.
+Q3: The difference between snapshot read and ordinary read lies in whether it participates in conflict detection. Ordinary reads will be recorded. If the data is modified, it may lead to transaction failure. However, snapshot read does not participate in conflict detection, so the transaction will not be aborted even if the data changes. I think it is suitable for scenarios where consistency requirements are not so strict.
+Q4: FoundationDB ensures high availability and consistency through data replication and a distributed architecture. Data will be stored on multiple nodes, and even if one node fails, it will not affect the entire system. At the same time, data consistency is ensured through the transaction mechanism. I think this design can ensure both reliability and performance simultaneously.
+Q5: FoundationDB's decoupled architecture separates different functions, making the system more flexible and efficient. In terms of recovery, since the components are independent, they can be quickly switched after a failure. In terms of concurrent control, it uses lock-free collision detection, which improves performance. In addition, atomic operation can avoid transaction abort and make high concurrent writes more stable. I think this design has great advantages in distributed systems.
